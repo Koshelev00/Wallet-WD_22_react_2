@@ -11,7 +11,9 @@ export const MainBlock = styled.div`
     align-content: flex-start;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 16px;
+   
+
 `
 
 export const H2 = styled.h2`
@@ -69,6 +71,9 @@ export const NewExpenseContainer = styled.div`
 
     scrollbar-width: thin;
     scrollbar-color: #d9d9d9 transparent;
+     @media (max-width: 1024px) {
+        display: none;
+    }
 `
 
 export const NewExpenseTitle = styled.h2`
@@ -139,6 +144,7 @@ export const CalendarContainer = styled.div`
     width: 100%;
     border-radius: 8px;
     box-sizing: border-box;
+    
 `
 
 export const CalendarHeader = styled.div`
@@ -239,6 +245,14 @@ export const ExpensesTableContainer = styled.div`
     border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    @media (max-width:600px) {
+       width: 343px;
+    }
+
+    @media ((min-width: 600px) and (max-width: 768px)) {
+       width: 700px;
+
+    }
 `
 
 export const TableHeader = styled.div`
@@ -427,4 +441,20 @@ export const ChartContainer = styled.div`
     padding: 20px;
     margin-bottom: 0;
     border-radius: 12px;
+`
+export const ButtonPeriod = styled.button`
+display:none;
+margin-top: 24px;
+border-radius:6px;
+height:39px;
+color: #ffffff;
+// display: flex;
+border:none;
+cursor: pointer;
+
+
+background-color:#1FA46C;
+@media(max-width:1024px){
+        display:block;
+}
 `

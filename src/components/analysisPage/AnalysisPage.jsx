@@ -292,7 +292,9 @@ function Analysispage() {
 />
                     </S.TableHeader>
                 </S.ExpensesTableContainer>
+                
             </S.ContentContainer>
+            <S.ButtonPeriod>Выбрать другой период</S.ButtonPeriod>
         </S.MainBlock>
     )
 }
