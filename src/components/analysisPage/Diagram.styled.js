@@ -1,0 +1,8 @@
+import styled from 'styled-components'
+
+export const ChartContainer = styled.div`
+    width: 100%;
+    height: 300px;
+    padding: 20px;
+    border-radius: 12px;
+`

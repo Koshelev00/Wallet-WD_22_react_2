@@ -1,15 +1,19 @@
-import Header from '../src/components/header/Header'
-import MainPage from './components/main/mainPage'
-import { GlobalStyles } from '../src/assests/GlobalStyles'
+import Header from './components/header/Header';
+import AppRoutes from './AppRoutes';
+import { ExpenseProvider } from './ExpenseContext';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyles } from './assests/GlobalStyles';
 
 function App() {
-    return (
-        <>
-            <GlobalStyles />
-            <Header />
-            <MainPage />
-        </>
-    )
+  return (
+    <BrowserRouter>
+      <ExpenseProvider>
+        <GlobalStyles />
+        <Header />
+        <AppRoutes />
+      </ExpenseProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

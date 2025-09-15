@@ -27,10 +27,6 @@ export const GlobalStyles = createGlobalStyle`
     outline: none;
   }
 
-  ul li {
-    list-style: none;
-  }
-
 
   body, html {
     height: 100%;
