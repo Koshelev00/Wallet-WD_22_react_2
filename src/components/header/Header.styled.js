@@ -34,6 +34,10 @@ export const NavButtons = styled.div`
     gap: 48px;
     width: 100%;
     max-width: 300px;
+
+    @media (max-width: 1024px) {
+        display: none;
+    }
 `
 
 export const HeaderButton = styled.button`
@@ -41,14 +45,9 @@ export const HeaderButton = styled.button`
     background-color: transparent;
     border: none;
     color: black;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
     cursor: pointer;
-    font-weight: 400;
     font-size: 14px;
     line-height: 170%;
-    letter-spacing: 0px;
     text-align: center;
 
     &:hover {
@@ -67,10 +66,6 @@ export const HeaderButton = styled.button`
 export const LogoutButton = styled(HeaderButton)`
     width: auto;
     font-weight: 600;
-    font-size: 14px;
-    line-height: 170%;
-    letter-spacing: 0px;
-    text-align: center;
 
     &:hover {
         color: #1fa46c;
@@ -78,48 +73,65 @@ export const LogoutButton = styled(HeaderButton)`
     }
 `
 
-// Адаптивность
-// @media (max-width: 768px) {
-//     ${NavButtons} {
-//         gap: 15px;
-//         max-width: 250px;
-//     }
+/* --- Dropdown --- */
+export const DropdownWrapper = styled.div`
+    position: relative;
+    display: none;
 
-//     ${HeaderButton} {
-//         font-size: 12px;
-//     }
+    @media (max-width: 1024px) {
+        display: block;
+    }
+`
 
-//     ${LogoutButton} {
-//         font-size: 12px;
-//     }
-// }
+export const DropdownButton = styled.button`
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
 
-// @media (max-width: 480px) {
-//     ${HeaderBlock} {
-//         flex-direction: column;
-//         height: auto;
-//         padding: 10px;
-//         gap: 10px;
-//     }
+    &:hover {
+        color: #1fa46c;
+    }
+`
 
-//     ${LogoAndLogout} {
-//         flex-direction: row;
-//         justify-content: center;
-//         width: 100%;
-//     }
+export const DropdownMenu = styled.div`
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: 4px;
+    min-width: 180px;
+    z-index: 10;
+`
 
-//     ${NavButtons} {
-//         flex-direction: row;
-//         width: 100%;
-//         max-width: 100%;
-//         gap: 10px;
-//     }
+export const DropdownItem = styled.div`
+    padding: 10px 14px;
+    cursor: pointer;
 
-//     ${HeaderButton} {
-//         font-size: 10px;
-//     }
+    &:hover {
+        background: #f5f5f5;
+        color: #1fa46c;
+    }
+`
 
-//     ${LogoutButton} {
-//         font-size: 10px;
-//     }
-// }
+/* --- SVG-треугольник (7x6 px) --- */
+export const TriangleIcon = styled.span`
+    display: inline-block;
+    width: 7px;
+    height: 6px;
+    background: url("data:image/svg+xml;utf8,<svg width='7' height='6' viewBox='0 0 7 6' xmlns='http://www.w3.org/2000/svg'><path d='M3.5 5.5L0.468911 0.25H6.53109L3.5 5.5Z' fill='black'/></svg>")
+        no-repeat center;
+    background-size: contain;
+    transition: transform 0.2s ease;
+
+    ${(props) =>
+        props.$open &&
+        `
+        transform: rotate(180deg);
+    `}
+`
