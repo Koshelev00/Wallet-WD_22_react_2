@@ -1,5 +1,5 @@
 import * as S from './Analysis.styled'
-import { useExpenses } from '../../ExpenseContext' 
+ 
 import { useState, useRef, useEffect } from 'react'
 import {
     format,
@@ -11,15 +11,14 @@ import {
     getYear,
     addMonths,
     isWithinInterval,
-    differenceInDays,
-    differenceInWeeks,
+   
 } from 'date-fns'
 import { ru } from 'date-fns/locale/ru'
 import ChartComponent from '../analysisPage/Diagram'
 import { getTransactionsByPeriod } from '../../services/api'
 
 function Analysispage() {
-    const [months, setMonths] = useState([
+    const [months,] = useState([
         new Date(),
         addMonths(new Date(), 1),
         addMonths(new Date(), 2),
@@ -34,16 +33,9 @@ function Analysispage() {
     const [showYearView, setShowYearView] = useState(false)
     const [transactions, setTransactions] = useState([]);
     const [totalExpenses, setTotalExpenses] = useState(0)
-    const { expenses } = useExpenses() || {} // Получаем транзакции из контекста
-    const [filteredExpenses, setFilteredExpenses] = useState([]) // Добавить состояние
 
-    const loadMoreMonths = () => {
-        setMonths((prevMonths) => {
-            const lastMonth = prevMonths[prevMonths.length - 1]
-            return [...prevMonths, addMonths(lastMonth, 1)]
-        })
-    }
 
+    
    useEffect(() => {
     const fetchTransactions = async () => {
         if (selectedRange[0] && selectedRange[1]) {
