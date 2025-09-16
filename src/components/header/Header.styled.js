@@ -18,6 +18,7 @@ export const HeaderBlock = styled.div`
     margin: 0 auto;
     box-sizing: border-box;
     justify-content: space-between;
+    z-index:20;
 `
 
 export const LogoAndLogout = styled.div`
@@ -34,6 +35,7 @@ export const NavButtons = styled.div`
     gap: 48px;
     width: 100%;
     max-width: 300px;
+   
 
     @media (max-width: 1024px) {
         display: none;

@@ -10,6 +10,10 @@ const HeaderLogoStyle = styled.div`
 const LogoImage = styled.img`
     width: 144px;
     height: 19px;
+    @media(max-width:640px){
+     width: 109px;
+    height: 14px;
+    }
 `
 
 function HeaderLogo({ logo }) {

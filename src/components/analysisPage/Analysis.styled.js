@@ -11,7 +11,9 @@ export const MainBlock = styled.div`
     align-content: flex-start;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 16px;
+    @media(min-width: 640px){
+        padding: 16px;
+    }
    
 
 `
@@ -23,6 +25,10 @@ export const H2 = styled.h2`
     letter-spacing: 0px;
     margin-bottom: 32px;
     padding-top: 20px;
+    @media(max-width:640px){
+    font-size: 24px;
+    }
+
 `
 
 export const MainPageContainer = styled.div`
@@ -42,16 +48,16 @@ export const NewExpenseContainer = styled.div`
     height: 542px;
     padding-left: 32px;
     padding-bottom: 32px;
-    padding-right: 32px;
-    border-radius: 8px;
+    padding-right: 16px;
+    // border-radius: 8px;
     background-color: #fff;
-    border-radius: 30px;
+   
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 32px;
+    
     overflow-x: hidden;
     overflow-y: scroll;
-    padding-right: 16px;
+   
 
     &::-webkit-scrollbar {
         width: 8px;
@@ -71,15 +77,28 @@ export const NewExpenseContainer = styled.div`
 
     scrollbar-width: thin;
     scrollbar-color: #d9d9d9 transparent;
-     @media (max-width: 1024px) {
-        display: none;
-    }
+ @media(max-width:600px) {
+    width:375px;
+     padding-right: 16px;
+     padding-left: 16px;
+ } 
+     @media (min-width: 601px) {
+  .hidden {
+    display: block;
+    
+   
+  }
+    margin-right: 32px;
+    border-radius: 30px;
+        
+} 
 `
 
 export const NewExpenseTitle = styled.h2`
     position: sticky;
     top: 0;
     background-color: white;
+   
     z-index: 10;
     font-size: 1.5em;
     margin-bottom: 10px;
@@ -90,6 +109,9 @@ export const NewExpenseTitle = styled.h2`
     align-content: center;
     padding-top: 32px;
     padding-bottom: 12px;
+@media(max-widt:640px){
+    font-size: 24px;
+}
 `
 
 export const PeriodElements = styled.div`
@@ -246,13 +268,21 @@ export const ExpensesTableContainer = styled.div`
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     @media (max-width:600px) {
-       width: 343px;
+       width: 375px;
+       border-radius: 0px;
+       padding-left:16px;
+       padding-right:16px
     }
 
     @media ((min-width: 600px) and (max-width: 768px)) {
        width: 700px;
 
     }
+       @media (min-width: 1024px) {
+  .hidden {
+    display: block; 
+  }
+}
 `
 
 export const TableHeader = styled.div`
@@ -444,17 +474,56 @@ export const ChartContainer = styled.div`
 `
 export const ButtonPeriod = styled.button`
 display:none;
-margin-top: 24px;
+// margin-top: 24px;
 border-radius:6px;
 height:39px;
 color: #ffffff;
 // display: flex;
 border:none;
 cursor: pointer;
+width:343px;
+ &:hover {
+    background-color: #147049; 
+  }
 
 
 background-color:#1FA46C;
 @media(max-width:1024px){
         display:block;
 }
+`
+export const BackDiagramm = styled.div`
+with:131px;
+height:18px;
+margin-top:24px;
+magin-botom:12px;
+display:flex;
+align-items: center;
+gap:6px;
+cursor:pointer;
+
+
+`
+export const BackImage= styled.img`
+ width: 14px;
+height: 14px;
+
+`
+export const BackTitle = styled.p`
+color: rgba(153, 153, 153, 1);
+
+
+font-size: 12px;
+font-weight: 600;
+line-height: 150%;
+letter-spacing: 0px;
+text-align: center;
+
+`
+export const ButtonBox= styled.div`
+width: 375px;
+height: 87px;
+padding: 24px 16px 24px 16px;
+Background-color: #ffffff;
+
 `

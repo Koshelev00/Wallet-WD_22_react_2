@@ -14,6 +14,7 @@ const ChartContainer = styled.div`
     border-radius: 12px;
 `
 
+// eslint-disable-next-line react/prop-types
 const ChartComponent = ({ expenses = [] }) => { // Добавлено значение по умолчанию
     const barChartData = useMemo(() => {
         const categoryMap = {
@@ -98,7 +99,7 @@ const ChartComponent = ({ expenses = [] }) => { // Добавлено значе
             <Bar 
                 data={barChartData} 
                 options={options}
-                key={JSON.stringify(barChartData)} // Форсируем обновление
+                key={JSON.stringify(barChartData)} 
             />
         </ChartContainer>
     )

@@ -85,7 +85,7 @@ function Header() {
                                     </DropdownItem>
                                     <DropdownItem
                                         onClick={() =>
-                                            handleSelect('Новый расход', '/new-expense')
+                                            handleSelect('Новый расход', '#')
                                         }
                                     >
                                         Новый расход
