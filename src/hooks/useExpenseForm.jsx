@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { isValidDateFormat, isValidAmountFormat } from '../utils/helper'
 
-export const useExpenseForm = (expenses, setExpenses) => {
+export const useExpenseForm = (expenses, setExpenses, onSubmit) => {
     const [newDescription, setNewDescription] = useState('')
     const [newCategory, setNewCategory] = useState('')
     const [newDate, setNewDate] = useState('')
@@ -81,33 +81,69 @@ export const useExpenseForm = (expenses, setExpenses) => {
 
         if (Object.values(newErrors).some(Boolean)) return
 
-        if (editMode) {
-            const updatedExpenses = [...expenses]
-            updatedExpenses[editingExpenseIndex] = {
+        // Вызываем переданную функцию onSubmit
+        if (onSubmit) {
+            const expenseData = {
                 description: newDescription,
                 category: newCategory,
                 date: newDate,
-                amount: `${newAmount} ₽`,
+                amount: newAmount,
+            };
+            
+            if (editMode) {
+                onSubmit(expenseData, editingExpenseIndex);
+            } else {
+                onSubmit(expenseData);
             }
-            setExpenses(updatedExpenses)
-            setEditMode(false)
-            setEditingExpenseIndex(null)
         } else {
-            setExpenses([
-                ...expenses,
-                {
+            // Локальная логика (для обратной совместимости)
+            if (editMode) {
+                const updatedExpenses = [...expenses]
+                updatedExpenses[editingExpenseIndex] = {
                     description: newDescription,
                     category: newCategory,
                     date: newDate,
                     amount: `${newAmount} ₽`,
-                },
-            ])
+                }
+                setExpenses(updatedExpenses)
+                setEditMode(false)
+                setEditingExpenseIndex(null)
+            } else {
+                setExpenses([
+                    ...expenses,
+                    {
+                        description: newDescription,
+                        category: newCategory,
+                        date: newDate,
+                        amount: `${newAmount} ₽`,
+                    },
+                ])
+            }
+
+            setNewDescription('')
+            setNewCategory('')
+            setNewDate('')
+            setNewAmount('')
         }
 
+        setErrors({
+            description: false,
+            category: false,
+            date: false,
+            amount: false,
+        })
+        setDescriptionError(false)
+        setDateError(false)
+        setAmountError(false)
+    }
+
+    const resetForm = () => {
         setNewDescription('')
         setNewCategory('')
         setNewDate('')
         setNewAmount('')
+        setEditMode(false)
+        setEditingExpenseIndex(null)
         setErrors({
             description: false,
             category: false,
@@ -133,11 +169,13 @@ export const useExpenseForm = (expenses, setExpenses) => {
         dateError,
         amountError,
         editMode,
+        setEditMode,
         editingExpenseIndex,
         handleDescriptionChange,
         handleDateChange,
         handleAmountChange,
         handleEditExpense,
         handleAddExpense,
+        resetForm,
     }
 }

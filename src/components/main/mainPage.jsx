@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { getTransactions, createTransaction, updateTransaction, deleteTransaction } from '../../services/api';
 import FoodIcon from '../icons/FoodIcon';
@@ -24,25 +23,53 @@ const REVERSE_CATEGORY_MAPPING = {
   'education': 'Образование',
   'others': 'Другое'
 };
+
 function MainPage() {
-  const { expenses = [], setExpenses } = useExpenses() || {}; // Дефолтное значение для expenses
+  const { expenses = [], setExpenses } = useExpenses() || {};
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortOrder, setSortOrder] = useState('Дата');
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const handleSubmit = async (transactionData, id) => {
+  const [apiError, setApiError] = useState(null);
+
+  const handleSubmit = async (expenseData, index) => {
     try {
-      if (id) {
-        await updateTransaction(id, transactionData);
+      const transactionData = {
+        description: expenseData.description,
+        sum: parseFloat(expenseData.amount.replace(/\s/g, '')),
+        category: CATEGORY_MAPPING[expenseData.category],
+        date: expenseData.date
+      };
+
+      if (index !== undefined) {
+        // Режим редактирования
+        await updateTransaction(expenses[index]._id, transactionData);
       } else {
+        // Новый расход
         await createTransaction(transactionData);
       }
+      
       await loadTransactions();
+      setApiError(null);
+      
+      // Очищаем форму после успешной отправки
+      setNewDescription('');
+      setNewCategory('');
+      setNewDate('');
+      setNewAmount('');
+      setEditMode(false);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка сохранения транзакции:', error);
+      if (error.message?.includes('description') && error.message?.includes('4 characters')) {
+        setApiError('Описание должно быть более 4 символов');
+      } else {
+        setApiError('Произошла ошибка при добавлении расхода');
+      }
+      throw error;
     }
   };
+
   const {
     newDescription,
     setNewDescription,
@@ -57,19 +84,19 @@ function MainPage() {
     dateError,
     amountError,
     editMode,
-    setEditMode, 
+    setEditMode,
     editingExpenseIndex,
     handleDescriptionChange,
     handleDateChange,
     handleAmountChange,
     handleEditExpense,
+    handleAddExpense,
+    resetForm,
   } = useExpenseForm(expenses, setExpenses, handleSubmit);
 
   const categories = ['Еда', 'Транспорт', 'Жильё', 'Развлечения', 'Образование', 'Другое'];
   const sortOptions = ['Дата', 'Сумма'];
- 
 
-  // Загрузка транзакций с сервера
   const loadTransactions = async () => {
     try {
       setIsLoading(true);
@@ -82,7 +109,7 @@ function MainPage() {
         ...transaction,
         category: REVERSE_CATEGORY_MAPPING[transaction.category],
         date: new Date(transaction.date)
-          .toLocaleDateString('ru-RU', { timeZone: 'UTC' }), // Фикс часового пояса
+          .toLocaleDateString('ru-RU', { timeZone: 'UTC' }),
         amount: `${transaction.sum} ₽`
       }));
       setExpenses(formattedData);
@@ -97,35 +124,6 @@ function MainPage() {
     loadTransactions();
   }, [selectedCategory, sortOrder]);
 
-  // Обработчик добавления/обновления транзакции
-  const handleAddExpense = async () => {
-    try {
-      const transactionData = {
-        description: newDescription,
-        sum: parseFloat(newAmount.replace(/\s/g, '')),
-        category: CATEGORY_MAPPING[newCategory],
-        date: newDate
-      };
-
-      if (editMode) {
-        await updateTransaction(expenses[editingExpenseIndex]._id, transactionData);
-      } else {
-        await createTransaction(transactionData);
-      }
-      setNewDescription('');
-      setNewCategory('');
-      setNewDate('');
-      setNewAmount('');
-      setEditMode(false);
-      
-      await loadTransactions();
-     
-    } catch (error) {
-      console.error('Ошибка сохранения транзакции:', error);
-    }
-  };
-
-  // Обработчик удаления
   const handleDelete = async (id) => {
     try {
       await deleteTransaction(id);
@@ -144,39 +142,33 @@ function MainPage() {
     Другое: <S.CategoryIcon src="/OtherIcon.svg" alt="Other icon" />,
   };
   
-    const toggleCategoryDropdown = () => {
-        setIsCategoryDropdownOpen(!isCategoryDropdownOpen)
-        setIsSortDropdownOpen(false)
-    }
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+    setIsSortDropdownOpen(false);
+  }
 
-    const toggleSortDropdown = () => {
-        setIsSortDropdownOpen(!isSortDropdownOpen)
-        setIsCategoryDropdownOpen(false)
-    }
+  const toggleSortDropdown = () => {
+    setIsSortDropdownOpen(!isSortDropdownOpen);
+    setIsCategoryDropdownOpen(false);
+  }
 
-    const handleCategorySelect = (category) => {
-        setSelectedCategory(category)
-        setIsCategoryDropdownOpen(false)
-    }
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsCategoryDropdownOpen(false);
+  }
 
-    const handleSortSelect = (order) => {
-        setSortOrder(order)
-        setIsSortDropdownOpen(false)
-    }
+  const handleSortSelect = (order) => {
+    setSortOrder(order);
+    setIsSortDropdownOpen(false);
+  }
 
-    const filteredExpenses = filterExpenses(expenses, selectedCategory)
-    const sortedExpenses = sortExpenses(filteredExpenses, sortOrder)
+  const filterExpenses = (expenses, selectedCategory) => {
+    return selectedCategory
+      ? (expenses || []).filter((expense) => expense?.category === selectedCategory)
+      : expenses || [];
+  }
 
-    function filterExpenses(expenses, selectedCategory) {
-        return selectedCategory
-            ? (expenses || []).filter(
-                  (expense) => expense?.category === selectedCategory
-              )
-            : expenses || []
-    }
-
-
-  function sortExpenses(expenses, sortOrder) {
+  const sortExpenses = (expenses, sortOrder) => {
     return [...(expenses || [])].sort((a, b) => {
       if (sortOrder === 'Дата') {
         const dateA = a?.date ? new Date(a.date.split('.').reverse().join('-')) : new Date();
@@ -189,11 +181,13 @@ function MainPage() {
       }
     });
   }
-  
+
+  const filteredExpenses = filterExpenses(expenses, selectedCategory);
+  const sortedExpenses = sortExpenses(filteredExpenses, sortOrder);
 
   return (
     <MainLayout
-      sortedExpenses={expenses}
+      sortedExpenses={sortedExpenses}
       newDescription={newDescription}
       newCategory={newCategory}
       newDate={newDate}
@@ -225,9 +219,10 @@ function MainPage() {
       handleSortSelect={handleSortSelect}
       sortOptions={sortOptions}
       onDelete={handleDelete}
+      apiError={apiError}
+      setApiError={setApiError}
     />
   );
-    
 }
 
-export default MainPage
+export default MainPage;

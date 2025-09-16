@@ -19,6 +19,8 @@ const ExpenseForm = ({
     handleDescriptionChange,
     handleDateChange,
     handleAmountChange,
+    apiError, 
+    setApiError,
 }) => {
     const [initialGreen, setInitialGreen] = useState(true)
 
@@ -44,11 +46,16 @@ const ExpenseForm = ({
         newDescription,
         newDate,
     ])
+    
     useEffect(() => {
         if (!isButtonValid && initialGreen) {
             setInitialGreen(true)
         }
     }, [isButtonValid, initialGreen, setInitialGreen])
+    
+  
+    const hasDescriptionError = descriptionError || Boolean(apiError);
+
     return (
         <S.NewExpenseContainer>
             <S.NewExpenseTitle>
@@ -56,7 +63,7 @@ const ExpenseForm = ({
             </S.NewExpenseTitle>
 
             <S.InputLabel htmlFor="description">
-                {(errors.description || descriptionError) && (
+                {(errors.description || descriptionError || apiError) && (
                     <S.ErrorStar>*</S.ErrorStar>
                 )}{' '}
                 Описание:
@@ -67,10 +74,25 @@ const ExpenseForm = ({
                 id="description"
                 placeholder="Введите описание"
                 value={newDescription}
-                onChange={handleDescriptionChange}
-                $descriptionerror={descriptionError}
+                onChange={(e) => {
+                    handleDescriptionChange(e);
+                    setApiError(null); // Сброс ошибки при изменении текста
+                }}
+                $descriptionerror={hasDescriptionError} // Используем объединенную ошибку
                 $newdescription={newDescription}
             />
+
+            {/* Показываем сообщение об ошибке API */}
+            {apiError && (
+                <div style={{ 
+                    color: '#ff4d4f', 
+                    fontSize: '12px', 
+                    marginTop: '-16px', 
+                    marginBottom: '16px' 
+                }}>
+                    {apiError}
+                </div>
+            )}
 
             <S.InputLabel>
                 {errors.category && <S.ErrorStar>*</S.ErrorStar>} Категория:
@@ -151,6 +173,8 @@ ExpenseForm.propTypes = {
     handleDescriptionChange: PropTypes.func.isRequired,
     handleDateChange: PropTypes.func.isRequired,
     handleAmountChange: PropTypes.func.isRequired,
+    apiError: PropTypes.string, // Добавлен PropTypes
+    setApiError: PropTypes.func, // Добавлен PropTypes
 }
 
 export default ExpenseForm
