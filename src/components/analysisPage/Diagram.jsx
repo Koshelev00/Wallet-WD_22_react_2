@@ -12,10 +12,11 @@ const ChartContainer = styled.div`
     padding: 20px;
     margin-bottom: 0;
     border-radius: 12px;
+    font-family: 'Montserrat', sans-serif; /* Добавьте это */
 `
 
 // eslint-disable-next-line react/prop-types
-const ChartComponent = ({ expenses = [] }) => { // Добавлено значение по умолчанию
+const ChartComponent = ({ expenses = [] }) => {
     const barChartData = useMemo(() => {
         const categoryMap = {
             'Еда': 0,
@@ -32,13 +33,12 @@ const ChartComponent = ({ expenses = [] }) => { // Добавлено значе
             joy: 'Развлечения',
             education: 'Образование',
             others: 'Другое'
-          };
-          
+        };
 
-          expenses?.forEach(({ category, sum }) => {
+        expenses?.forEach(({ category, sum }) => {
             const russianCategory = REVERSE_CATEGORY_MAPPING[category] || 'Другое';
             categoryMap[russianCategory] += sum;
-          });
+        });
 
         return {
             labels: Object.keys(categoryMap),
@@ -62,24 +62,22 @@ const ChartComponent = ({ expenses = [] }) => { // Добавлено значе
         responsive: true,
         maintainAspectRatio: false,
         layout: {
-
             padding: {
-            
-            top: 30,
-            
-            bottom: 0,
-            
-            left: 0,
-            
-            right: 0,
-            
+                top: 30,
+                bottom: 0,
+                left: 0,
+                right: 0,
             }
         },
         plugins: {
             legend: { display: false },
             datalabels: {
                 color: 'black',
-                font: { weight: 600, size: 12 },
+                font: { 
+                    weight: 600, 
+                    size: 12,
+                    family: "'Montserrat', sans-serif" 
+                },
                 formatter: (value) => value ? `${value} ₽` : '',
                 anchor: 'end',
                 align: 'top'
@@ -88,7 +86,12 @@ const ChartComponent = ({ expenses = [] }) => { // Добавлено значе
         scales: {
             x: { 
                 grid: { display: false },
-                ticks: { font: { size: 12 } }
+                ticks: { 
+                    font: { 
+                        size: 12,
+                        family: "'Montserrat', sans-serif" 
+                    }
+                }
             },
             y: { display: false }
         }
