@@ -32,18 +32,18 @@ function Analysispage() {
     const [transactions, setTransactions] = useState([])
     const [totalExpenses, setTotalExpenses] = useState(0)
     const [showCalendar, setShowCalendar] = useState(false)
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 769)
 
-    // Отслеживаем размер окна
+    
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 1024)
+            setIsMobile(window.innerWidth < 769)
         }
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    // Загрузка транзакций
+   
     useEffect(() => {
         const fetchTransactions = async () => {
             if (selectedRange[0] && selectedRange[1]) {
@@ -64,7 +64,7 @@ function Analysispage() {
         fetchTransactions()
     }, [selectedRange])
 
-    // Подсчет общей суммы расходов
+    
     useEffect(() => {
         const total = transactions.reduce((acc, t) => acc + (t.sum || 0), 0)
         setTotalExpenses(total)

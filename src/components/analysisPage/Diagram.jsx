@@ -3,7 +3,7 @@ import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 Chart.register(ChartDataLabels)
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 const ChartContainer = styled.div`
@@ -12,11 +12,22 @@ const ChartContainer = styled.div`
     padding: 20px;
     margin-bottom: 0;
     border-radius: 12px;
-    font-family: 'Montserrat', sans-serif; /* Добавьте это */
+    font-family: 'Montserrat', sans-serif;
+    @media(max-width:767px){
+    padding:0;
+    }
 `
 
 // eslint-disable-next-line react/prop-types
 const ChartComponent = ({ expenses = [] }) => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
     const barChartData = useMemo(() => {
         const categoryMap = {
             'Еда': 0,
@@ -40,10 +51,24 @@ const ChartComponent = ({ expenses = [] }) => {
             categoryMap[russianCategory] += sum;
         });
 
+        // Сокращаем длинные названия для мобильных устройств
+        const shortenLabel = (label) => {
+            if (windowWidth < 767) { // Очень маленькие экраны
+                if (label === 'Развлечения') return 'Развле...';
+                if (label === 'Образование') return 'Образо...';
+                if (label === 'Транспорт') return 'Трансп...';
+                if (label.length > 6) return label.substring(0, 5) + '.';
+            } 
+            return label;
+        };
+
+        const labels = Object.keys(categoryMap).map(shortenLabel);
+        const data = Object.values(categoryMap);
+
         return {
-            labels: Object.keys(categoryMap),
+            labels: labels,
             datasets: [{
-                data: Object.values(categoryMap),
+                data: data,
                 backgroundColor: [
                     '#D9B6FF',
                     '#FFB53D',
@@ -54,19 +79,21 @@ const ChartComponent = ({ expenses = [] }) => {
                 ],
                 borderWidth: 0,
                 borderRadius: 12,
+                categoryPercentage: windowWidth < 768 ? 0.5 : 0.6,
+                barPercentage: 0.8,
             }]
         }
-    }, [expenses])
+    }, [expenses, windowWidth])
 
     const options = {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
             padding: {
-                top: 30,
-                bottom: 0,
-                left: 0,
-                right: 0,
+                top: 40,
+                bottom: 25,
+                left: 15,
+                right: 15,
             }
         },
         plugins: {
@@ -75,25 +102,41 @@ const ChartComponent = ({ expenses = [] }) => {
                 color: 'black',
                 font: { 
                     weight: 600, 
-                    size: 12,
+                    size: windowWidth < 768 ? 9 : 11,
                     family: "'Montserrat', sans-serif" 
                 },
-                formatter: (value) => value ? `${value} ₽` : '',
+                formatter: (value) => value ? `${value.toLocaleString('ru-RU')} ₽` : '',
                 anchor: 'end',
-                align: 'top'
+                align: 'top',
+                offset: 4,
+                padding: {
+                    bottom: 10
+                }
             }
         },
         scales: {
             x: { 
-                grid: { display: false },
+                grid: { 
+                    display: false,
+                    drawBorder: false
+                },
                 ticks: { 
                     font: { 
-                        size: 12,
-                        family: "'Montserrat', sans-serif" 
-                    }
+                        size: windowWidth < 768 ? 10 : 12,
+                        family: "'Montserrat', sans-serif",
+                        weight: 500
+                    },
+                    maxRotation: 0, 
+                    minRotation: 0,
+                    padding: 12,
+                    color: '#000'
                 }
             },
-            y: { display: false }
+            y: { 
+                display: false,
+                grid: { display: false },
+                beginAtZero: true
+            }
         }
     }
 

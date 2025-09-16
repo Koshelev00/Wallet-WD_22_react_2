@@ -11,7 +11,7 @@ export const MainBlock = styled.div`
     align-content: flex-start;
     max-width: 1200px;
     margin: 0 auto;
-    @media(min-width: 640px){
+    @media(min-width: 767px){
         padding: 16px;
     }
    
@@ -25,7 +25,7 @@ export const H2 = styled.h2`
     letter-spacing: 0px;
     margin-bottom: 32px;
     padding-top: 20px;
-    @media(max-width:640px){
+    @media(max-width:767px){
     font-size: 24px;
     }
 
@@ -82,7 +82,7 @@ export const NewExpenseContainer = styled.div`
      padding-right: 16px;
      padding-left: 16px;
  } 
-     @media (min-width: 601px) {
+     @media (min-width: 767px) {
   .hidden {
     display: block;
     
@@ -109,7 +109,7 @@ export const NewExpenseTitle = styled.h2`
     align-content: center;
     padding-top: 32px;
     padding-bottom: 12px;
-@media(max-widt:640px){
+@media(max-widt:767px){
     font-size: 24px;
 }
 `
@@ -267,15 +267,15 @@ export const ExpensesTableContainer = styled.div`
     border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    @media (max-width:600px) {
+    @media (max-width:767px) {
        width: 375px;
        border-radius: 0px;
        padding-left:16px;
        padding-right:16px
     }
 
-    @media ((min-width: 600px) and (max-width: 768px)) {
-       width: 700px;
+    @media ((min-width: 768px) and (max-width: 1024px)) {
+       width: 375px;
 
     }
        @media (min-width: 1024px) {

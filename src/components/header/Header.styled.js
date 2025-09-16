@@ -37,7 +37,7 @@ export const NavButtons = styled.div`
     max-width: 300px;
    
 
-    @media (max-width: 1024px) {
+    @media (max-width: 767px) {
         display: none;
     }
 `
@@ -80,7 +80,7 @@ export const DropdownWrapper = styled.div`
     position: relative;
     display: none;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 767px) {
         display: block;
     }
 `

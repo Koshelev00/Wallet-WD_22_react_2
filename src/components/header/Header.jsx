@@ -30,7 +30,7 @@ function Header() {
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState('Мои расходы')
 
-    // обновляем выбранный пункт в зависимости от URL
+    
     useEffect(() => {
         if (location.pathname === '/my-expenses') setSelected('Мои расходы')
         if (location.pathname === '/new-expense') setSelected('Новый расход')
@@ -51,7 +51,7 @@ function Header() {
                     <LogoAndLogout>
                         <HeaderLogo logo={logo} />
 
-                        {/* Десктопные кнопки */}
+                        
                         <NavButtons>
                             <Link to="/my-expenses">
                                 <HeaderButton
@@ -69,7 +69,7 @@ function Header() {
                             </Link>
                         </NavButtons>
 
-                        {/* Мобильное меню */}
+                        
                         <DropdownWrapper>
                             <DropdownButton onClick={() => setIsOpen(!isOpen)}>
                                 {selected} <TriangleIcon $open={isOpen} />
