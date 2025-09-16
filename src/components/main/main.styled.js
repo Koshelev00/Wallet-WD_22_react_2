@@ -6,6 +6,9 @@ export const MainBlock = styled.div`
     padding: 20px;
     background: #f4f5f6;
     min-height: 100vh;
+     @media(max-width:767px){
+        padding:0px;
+    }
 `
 
 export const H2 = styled.h2`
@@ -14,12 +17,18 @@ export const H2 = styled.h2`
     line-height: 150%;
     letter-spacing: 0px;
     padding-top: 20px;
+     @media(max-width:767px){
+        font-size:24px;
+    }
 `
 
 export const ContentContainer = styled.div`
     display: flex;
     margin-top: 32px;
     gap: 36px;
+     @media(max-width:767px){
+        margin-top:0px;
+    }
 `
 
 export const ExpensesTableContainer = styled.div`
@@ -30,6 +39,10 @@ export const ExpensesTableContainer = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 32px;
     overflow-x: auto;
+     @media(max-width:767px){
+        padding:16px;
+        border-radius:0px;
+    }
 `
 
 export const NewExpenseContainer = styled.div`
@@ -80,6 +93,9 @@ export const FilterButton = styled.button`
     font-size: 12px;
     line-height: 100%;
     cursor: pointer;
+    @media(max-width:767px){
+        font-size:10px;
+    }
 `
 
 export const GreenLink = styled.span`
@@ -163,6 +179,9 @@ export const TableHeaderCell = styled.th`
     letter-spacing: 0px;
     vertical-align: middle;
     white-space: nowrap;
+    @media(max-width:767px){
+        font-size:10px;
+    }
 
     &:first-child {
         padding-left: 0;
@@ -197,6 +216,10 @@ export const TableRow = styled.tr`
     background-color: ${(props) =>
         props.$isEditing ? '#DBFFE9' : 'transparent'};
     color: ${(props) => (props.$isEditing ? '#1FA46C' : 'black')};
+    @media(max-width:767px){
+        font-size:10px;
+        line-height:12px;
+    }
 `
 
 export const TableCell = styled.td`
@@ -464,3 +487,37 @@ export const DeleteIcon = styled.img`
     width: 12px;
     height: 12px;
 `
+export const TitleBox = styled.div`
+   
+    height: 29px;
+    margin-top:6px;
+    margin-bottom:21px;
+    display:flex;
+    // gap:58px;
+    justify-content: space-between
+    
+`
+export const Title = styled.h3`
+   font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0px;
+`
+export const NewTransactionBox= styled.div`
+display:flex;
+align-items: center;
+gap:6px;
+   
+`
+export const Add= styled.img`
+width:12px;
+height:12px;
+   
+`
+export const NewTransaction= styled.p`
+font-size: 12px;
+font-weight: 600;
+line-height: 150%;
+letter-spacing: 0px;
+`
+

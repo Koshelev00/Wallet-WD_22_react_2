@@ -21,6 +21,7 @@ const ExpenseForm = ({
     handleAmountChange,
     apiError, 
     setApiError,
+    isMobile,
 }) => {
     const [initialGreen, setInitialGreen] = useState(true)
 

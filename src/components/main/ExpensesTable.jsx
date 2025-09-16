@@ -7,6 +7,7 @@ const ExpensesTable = ({
     editMode,
     editingExpenseIndex,
     onDelete,
+    isMobile,
 }) => (
     <S.Table>
         <S.TableHead>
@@ -29,6 +30,7 @@ const ExpensesTable = ({
                         <S.TableCell>{expense.category}</S.TableCell>
                         <S.TableCell>{expense.date}</S.TableCell>
                         <S.TableCell>{expense.amount.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}</S.TableCell>
+                        {!isMobile && (
                         <S.TableCell>
                             <S.EditButton onClick={() => onEdit(index)}>
                                 <S.EditIcon
@@ -57,6 +59,7 @@ const ExpensesTable = ({
                                 />
                             </S.DeleteButton>
                         </S.TableCell>
+                        )}
                     </S.TableRow>
                 ))
             ) : (

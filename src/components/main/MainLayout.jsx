@@ -34,14 +34,29 @@ const MainLayout = ({
   sortOptions,
   onDelete,
   apiError, 
-  setApiError, 
+  setApiError,
+  isMobile, 
+  
 }) => (
   <S.MainBlock>
+    {!isMobile &&(
     <S.H2>Мои расходы</S.H2>
+    )}
     <S.ContentContainer>
       <S.ExpensesTableContainer>
+        {isMobile && (
+        <S.TitleBox>
+        <S.Title>Мои расходы</S.Title>
+        <S.NewTransactionBox>
+          <S.Add  src="../../../public/Add.svg" alt="add"/>
+          <S.NewTransaction>Новый расход</S.NewTransaction>
+        </S.NewTransactionBox>
+        </S.TitleBox>
+        )}
         <S.TableHeader>
+          {!isMobile &&(
           <S.H3>Таблица расходов</S.H3>
+          )}
           <S.FiltersRow>
             <S.FilterWrapper>
               <S.FilterButton onClick={toggleCategoryDropdown}>
@@ -85,6 +100,7 @@ const MainLayout = ({
             editMode={editMode}
             editingExpenseIndex={editingExpenseIndex}
             onDelete={onDelete}
+            isMobile={isMobile}
           />
         ) : (
           <S.Table>
@@ -105,6 +121,7 @@ const MainLayout = ({
           </S.Table>
         )}
       </S.ExpensesTableContainer>
+      {!isMobile &&(
       <ExpenseForm
     newDescription={newDescription}
     newCategory={newCategory}
@@ -124,7 +141,9 @@ const MainLayout = ({
     handleAmountChange={handleAmountChange}
     apiError={apiError}
     setApiError={setApiError}
+    isMobile={isMobile}
 />
+      )}
     </S.ContentContainer>
   </S.MainBlock>
 );

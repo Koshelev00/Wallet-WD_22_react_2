@@ -32,6 +32,17 @@ function MainPage() {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769)
+
+    
+  useEffect(() => {
+      const handleResize = () => {
+          setIsMobile(window.innerWidth < 769)
+      }
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
 
   const handleSubmit = async (expenseData, index) => {
     try {
@@ -221,6 +232,7 @@ function MainPage() {
       onDelete={handleDelete}
       apiError={apiError}
       setApiError={setApiError}
+      isMobile={isMobile}
     />
   );
 }
