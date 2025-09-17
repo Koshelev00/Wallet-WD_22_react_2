@@ -33,6 +33,7 @@ function MainPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769)
+  const [showNewTransaction, setShowNewTransaction] = useState(false)
 
     
   useEffect(() => {
@@ -233,6 +234,8 @@ function MainPage() {
       apiError={apiError}
       setApiError={setApiError}
       isMobile={isMobile}
+      showNewTransaction={showNewTransaction}
+      setShowNewTransaction={setShowNewTransaction}
     />
   );
 }

@@ -35,7 +35,9 @@ const MainLayout = ({
   onDelete,
   apiError, 
   setApiError,
-  isMobile, 
+  isMobile,
+  showNewTransaction,
+  setShowNewTransaction, 
   
 }) => (
   <S.MainBlock>
@@ -43,13 +45,14 @@ const MainLayout = ({
     <S.H2>Мои расходы</S.H2>
     )}
     <S.ContentContainer>
+      {!showNewTransaction &&(
       <S.ExpensesTableContainer>
         {isMobile && (
         <S.TitleBox>
         <S.Title>Мои расходы</S.Title>
         <S.NewTransactionBox>
           <S.Add  src="../../../public/Add.svg" alt="add"/>
-          <S.NewTransaction>Новый расход</S.NewTransaction>
+          <S.NewTransaction onClick={() => setShowNewTransaction(!showNewTransaction)}>Новый расход</S.NewTransaction>
         </S.NewTransactionBox>
         </S.TitleBox>
         )}
@@ -61,7 +64,7 @@ const MainLayout = ({
             <S.FilterWrapper>
               <S.FilterButton onClick={toggleCategoryDropdown}>
                 Фильтровать по категории{' '}
-                <S.GreenLink>{selectedCategory || 'выбрать'}</S.GreenLink>
+                <S.GreenLink>{selectedCategory}</S.GreenLink>
                 <S.DropdownArrow $isOpen={isCategoryDropdownOpen} src="/ArrowIcon.svg" alt="Arrow Icon" />
               </S.FilterButton>
               {isCategoryDropdownOpen && (
@@ -121,7 +124,8 @@ const MainLayout = ({
           </S.Table>
         )}
       </S.ExpensesTableContainer>
-      {!isMobile &&(
+      )}
+      {(isMobile ? showNewTransaction: true) &&(
       <ExpenseForm
     newDescription={newDescription}
     newCategory={newCategory}
@@ -142,6 +146,8 @@ const MainLayout = ({
     apiError={apiError}
     setApiError={setApiError}
     isMobile={isMobile}
+    showNewTransaction={showNewTransaction}
+    setShowNewTransaction={setShowNewTransaction}
 />
       )}
     </S.ContentContainer>
@@ -187,6 +193,9 @@ MainLayout.propTypes = {
   sortOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   apiError: PropTypes.string, 
   setApiError: PropTypes.func, 
+  isMobile:PropTypes.bool,
+  showNewTransaction: PropTypes.bool,
+  setShowNewTransaction: PropTypes.func,
 }
 
 export default MainLayout;

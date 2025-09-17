@@ -22,6 +22,8 @@ const ExpenseForm = ({
     apiError, 
     setApiError,
     isMobile,
+    showNewTransaction,
+  setShowNewTransaction,
 }) => {
     const [initialGreen, setInitialGreen] = useState(true)
 
@@ -59,6 +61,20 @@ const ExpenseForm = ({
 
     return (
         <S.NewExpenseContainer>
+              {(isMobile ? showNewTransaction : true) && (
+            <S.BackTransaction onClick={() => setShowNewTransaction(!showNewTransaction)}>
+                
+          
+                <S.BackImage src="../../../public/back.svg" alt="back"/>
+            
+
+             <S.BackTitle>
+             Мои расходы
+            </S.BackTitle>
+
+
+            </S.BackTransaction>
+              )}
             <S.NewExpenseTitle>
                 {editMode ? 'Редактирование' : 'Новый расход'}
             </S.NewExpenseTitle>
@@ -77,13 +93,13 @@ const ExpenseForm = ({
                 value={newDescription}
                 onChange={(e) => {
                     handleDescriptionChange(e);
-                    setApiError(null); // Сброс ошибки при изменении текста
+                    setApiError(null);
                 }}
-                $descriptionerror={hasDescriptionError} // Используем объединенную ошибку
+                $descriptionerror={hasDescriptionError} 
                 $newdescription={newDescription}
             />
 
-            {/* Показываем сообщение об ошибке API */}
+            
             {apiError && (
                 <div style={{ 
                     color: '#ff4d4f', 
@@ -174,8 +190,11 @@ ExpenseForm.propTypes = {
     handleDescriptionChange: PropTypes.func.isRequired,
     handleDateChange: PropTypes.func.isRequired,
     handleAmountChange: PropTypes.func.isRequired,
-    apiError: PropTypes.string, // Добавлен PropTypes
-    setApiError: PropTypes.func, // Добавлен PropTypes
+    apiError: PropTypes.string,
+    setApiError: PropTypes.func, 
+    isMobile:PropTypes.bool,
+    showNewTransaction: PropTypes.bool,
+    setShowNewTransaction: PropTypes.func,
 }
 
 export default ExpenseForm

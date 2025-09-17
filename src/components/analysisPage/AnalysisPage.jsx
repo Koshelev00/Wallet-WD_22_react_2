@@ -176,7 +176,7 @@ function Analysispage() {
                 
             <S.H2>Анализ расходов</S.H2>
             )}
-
+            
             <S.ContentContainer>
                 {(isMobile ? showCalendar : true) && (
                     <S.NewExpenseContainer>

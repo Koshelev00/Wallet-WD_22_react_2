@@ -4,10 +4,10 @@ export const MainBlock = styled.div`
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background: #f4f5f6;
     min-height: 100vh;
      @media(max-width:767px){
         padding:0px;
+
     }
 `
 
@@ -42,6 +42,7 @@ export const ExpensesTableContainer = styled.div`
      @media(max-width:767px){
         padding:16px;
         border-radius:0px;
+        box-shadow:none;
     }
 `
 
@@ -60,6 +61,7 @@ export const TableHeader = styled.div`
     align-items: center;
     gap: 16px;
     margin-bottom: 20px;
+    
 `
 
 export const H3 = styled.h3`
@@ -150,7 +152,6 @@ export const DropdownItem = styled.div`
 `
 
 export const DropdownArrow = styled.img`
-    margin-left: 8px;
     height: 7px;
     transition: transform 0.3s ease;
     transform: ${(props) =>
@@ -179,9 +180,7 @@ export const TableHeaderCell = styled.th`
     letter-spacing: 0px;
     vertical-align: middle;
     white-space: nowrap;
-    @media(max-width:767px){
-        font-size:10px;
-    }
+    
 
     &:first-child {
         padding-left: 0;
@@ -204,6 +203,34 @@ export const TableHeaderCell = styled.th`
 
     &:nth-child(4) {
         min-width: 100px;
+    }
+
+    @media(max-width:767px){
+        font-size:10px;
+
+
+        &:first-child {
+            padding-left: 0;
+            min-width: 36px;
+        }
+
+        &:last-child {
+            padding-right: 0px;
+            width: 0px;
+        }
+
+        &:nth-child(2) {
+            padding-right: 30px;
+            min-width: 36px;
+        }
+
+        &:nth-child(3) {
+            min-width: 36px;
+        }
+
+        &:nth-child(4) {
+            min-width: 36px;
+        }    
     }
 `
 
@@ -234,7 +261,7 @@ export const TableCell = styled.td`
 
     &:last-child {
         padding-right: 12px;
-        width: 40px;
+        width: 0px;
     }
 
     &:nth-child(2) {
@@ -252,6 +279,38 @@ export const TableCell = styled.td`
     &:nth-child(5) {
         padding-left: 82px;
     }
+
+ @media(max-width:767px){
+        font-size:10px;
+
+
+        &:first-child {
+            padding-left: 0;
+            min-width: 36px;
+        }
+
+        &:last-child {
+            width: 40px;
+        }
+
+        &:nth-child(2) {
+            padding-right: 30px;
+            min-width: 36px;
+        }
+
+        &:nth-child(3) {
+            min-width: 80px;
+        }
+
+        &:nth-child(4) {
+            min-width: 36px;
+        }    
+            &:nth-child(5) {
+        padding-left: 0px;
+    }
+    }
+
+
 `
 
 export const EditButton = styled.button`
@@ -272,6 +331,10 @@ export const NewExpenseTitle = styled.h2`
     font-weight: 600;
     font-size: 16px;
     line-height: 100%;
+    @media(max-width:767px){
+        font-size: 24px;
+        font-weight: 700;
+    }
 `
 
 export const InputLabel = styled.label`
@@ -519,5 +582,34 @@ font-size: 12px;
 font-weight: 600;
 line-height: 150%;
 letter-spacing: 0px;
+cursor:pointer;
 `
+export const BackTransaction= styled.div`
+with:131px;
+height:18px;
+margin-bottom:12px;
+display:flex;
+align-items: center;
+gap:6px;
+cursor:pointer;
+`
+export const BackButton= styled.div`
+
+
+`
+export const BackImage= styled.img`
+width: 14px;
+height: 14px;
+
+`
+export const BackTitle= styled.text`
+color: rgba(153, 153, 153, 1);
+font-size: 12px;
+font-weight: 600;
+line-height: 150%;
+letter-spacing: 0px;
+text-align: center;
+
+`
+
 

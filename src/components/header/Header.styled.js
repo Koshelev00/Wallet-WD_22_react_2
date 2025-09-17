@@ -19,6 +19,9 @@ export const HeaderBlock = styled.div`
     box-sizing: border-box;
     justify-content: space-between;
     z-index:20;
+    @media(max-width:767px){
+         height: 54px;
+    }
 `
 
 export const LogoAndLogout = styled.div`

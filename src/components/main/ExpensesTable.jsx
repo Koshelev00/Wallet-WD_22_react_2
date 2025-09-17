@@ -86,6 +86,7 @@ ExpensesTable.propTypes = {
     onEdit: PropTypes.func.isRequired,
     editMode: PropTypes.bool.isRequired,
     editingExpenseIndex: PropTypes.number,
+     isMobile:PropTypes.bool,
 }
 
 export default ExpensesTable
