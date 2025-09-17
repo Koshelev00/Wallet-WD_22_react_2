@@ -41,7 +41,6 @@ function Header() {
     setSelected(label);
     setIsOpen(false);
     if (showForm) {
-      // Переходим на главную страницу и передаем параметр для показа формы
       navigate('/my-expenses', { state: { showNewTransaction: true } });
     } else {
       navigate(path);

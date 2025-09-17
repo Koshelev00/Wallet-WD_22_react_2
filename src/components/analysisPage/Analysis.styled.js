@@ -46,7 +46,6 @@ export const NewExpenseContainer = styled.div`
   padding-left: 32px;
   padding-bottom: 32px;
   padding-right: 16px;
-  // border-radius: 8px;
   background-color: #fff;
 
   position: relative;
@@ -464,11 +463,9 @@ export const ChartContainer = styled.div`
 `;
 export const ButtonPeriod = styled.button`
   display: none;
-  // margin-top: 24px;
   border-radius: 6px;
   height: 39px;
   color: #ffffff;
-  // display: flex;
   border: none;
   cursor: pointer;
   width: 343px;

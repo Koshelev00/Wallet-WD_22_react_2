@@ -51,10 +51,8 @@ const ChartComponent = ({ expenses = [] }) => {
       categoryMap[russianCategory] += sum;
     });
 
-    // Сокращаем длинные названия для мобильных устройств
     const shortenLabel = (label) => {
       if (windowWidth < 767) {
-        // Очень маленькие экраны
         if (label === 'Развлечения') return 'Развле...';
         if (label === 'Образование') return 'Образо...';
         if (label === 'Транспорт') return 'Трансп...';

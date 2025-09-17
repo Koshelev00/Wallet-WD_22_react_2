@@ -123,7 +123,6 @@ export const DropdownItem = styled.div`
   }
 `;
 
-/* --- SVG-треугольник (7x6 px) --- */
 export const TriangleIcon = styled.span`
   display: inline-block;
   width: 7px;

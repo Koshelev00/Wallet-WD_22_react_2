@@ -78,7 +78,6 @@ export const useExpenseForm = (expenses, setExpenses, onSubmit) => {
 
     if (Object.values(newErrors).some(Boolean)) return;
 
-    // Вызываем переданную функцию onSubmit
     if (onSubmit) {
       const expenseData = {
         description: newDescription,
@@ -93,7 +92,6 @@ export const useExpenseForm = (expenses, setExpenses, onSubmit) => {
         onSubmit(expenseData);
       }
     } else {
-      // Локальная логика (для обратной совместимости)
       if (editMode) {
         const updatedExpenses = [...expenses];
         updatedExpenses[editingExpenseIndex] = {

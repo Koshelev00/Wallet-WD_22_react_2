@@ -563,7 +563,6 @@ export const TitleBox = styled.div`
   margin-top: 6px;
   margin-bottom: 21px;
   display: flex;
-  // gap:58px;
   justify-content: space-between;
   @media (max-width: 767px) {
     padding-left: 16px;

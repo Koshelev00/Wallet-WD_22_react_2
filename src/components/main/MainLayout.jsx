@@ -43,7 +43,6 @@ const MainLayout = ({
   expenses,
   selectedRowId,
 }) => {
-  // Добавьте эту функцию внутри компонента
   const getExpenseIndexById = (id) => {
     return expenses.findIndex((expense) => expense._id === id);
   };
