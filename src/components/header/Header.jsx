@@ -47,12 +47,12 @@ function Header() {
     return (
         <HeaderContainer>
             <HeaderBlock>
-                {showButtons && (
+                
                     <LogoAndLogout>
                         <HeaderLogo logo={logo} />
 
-                        
-                        <NavButtons>
+                { showButtons && (        
+                        <><NavButtons>
                             <Link to="/my-expenses">
                                 <HeaderButton
                                     $active={location.pathname === '/my-expenses'}
@@ -67,50 +67,40 @@ function Header() {
                                     Анализ расходов
                                 </HeaderButton>
                             </Link>
-                        </NavButtons>
-
-                        
-                        <DropdownWrapper>
-                            <DropdownButton onClick={() => setIsOpen(!isOpen)}>
-                                {selected} <TriangleIcon $open={isOpen} />
-                            </DropdownButton>
-                            {isOpen && (
-                                <DropdownMenu>
-                                    <DropdownItem
-                                        onClick={() =>
-                                            handleSelect('Мои расходы', '/my-expenses')
-                                        }
-                                    >
-                                        Мои расходы
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        onClick={() =>
-                                            handleSelect('Новый расход', '#')
-                                        }
-                                    >
-                                        Новый расход
-                                    </DropdownItem>
-                                    <DropdownItem
-                                        onClick={() =>
-                                            handleSelect(
+                        </NavButtons><DropdownWrapper>
+                                <DropdownButton onClick={() => setIsOpen(!isOpen)}>
+                                    {selected} <TriangleIcon $open={isOpen} />
+                                </DropdownButton>
+                                {isOpen && (
+                                    <DropdownMenu>
+                                        <DropdownItem
+                                            onClick={() => handleSelect('Мои расходы', '/my-expenses')}
+                                        >
+                                            Мои расходы
+                                        </DropdownItem>
+                                        <DropdownItem
+                                            onClick={() => handleSelect('Новый расход', '#')}
+                                        >
+                                            Новый расход
+                                        </DropdownItem>
+                                        <DropdownItem
+                                            onClick={() => handleSelect(
                                                 'Анализ расходов',
                                                 '/expense-analysis'
-                                            )
-                                        }
-                                    >
-                                        Анализ расходов
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            )}
-                        </DropdownWrapper>
-
-                        <Link to="/log-out">
-                            <LogoutButton onClick={cleanUserData}>
-                                Выйти
-                            </LogoutButton>
-                        </Link>
-                    </LogoAndLogout>
+                                            )}
+                                        >
+                                            Анализ расходов
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                )}
+                            </DropdownWrapper><Link to="/log-out">
+                                <LogoutButton onClick={cleanUserData}>
+                                    Выйти
+                                </LogoutButton>
+                            </Link></>
                 )}
+                    </LogoAndLogout>
+                
             </HeaderBlock>
         </HeaderContainer>
     )

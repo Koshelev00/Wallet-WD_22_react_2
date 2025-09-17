@@ -7,6 +7,9 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     margin-top: 163px;
+    @media(max-width:767px){
+        margin-top: 0px;
+    }
 `
 
 export const ContainerSignin = styled.div`
@@ -25,12 +28,17 @@ export const Modal = styled.div`
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    @media(max-width:767px){
+         border-radius: 0px;
+         box-shadow:none;
+    }
 `
 
 export const ModalBlock = styled.div`
     padding: 32px;
     display: block;
     width: 100%;
+    padding-top: 131px;
 `
 
 export const ModalTtl = styled.div`

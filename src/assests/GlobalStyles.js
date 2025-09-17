@@ -32,6 +32,9 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
     font-family: "Montserrat", Arial, Helvetica, sans-serif;
     background: #F4F5F6;
+    @media(max-width:767px){
+    background: #ffffff;
+    }
   
   }
 
