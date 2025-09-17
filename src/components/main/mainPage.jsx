@@ -1,27 +1,33 @@
 import { useState, useEffect } from 'react';
-import { getTransactions, createTransaction, updateTransaction, deleteTransaction } from '../../services/api';
+import {
+  getTransactions,
+  createTransaction,
+  updateTransaction,
+  deleteTransaction,
+} from '../../services/api';
 import FoodIcon from '../icons/FoodIcon';
 import { useExpenses } from '../../ExpenseContext';
 import MainLayout from './MainLayout';
 import { useExpenseForm } from '../../hooks/useExpenseForm';
 import * as S from './main.styled';
+import { useLocation } from 'react-router-dom';
 
 const CATEGORY_MAPPING = {
-  'Еда': 'food',
-  'Транспорт': 'transport',
-  'Жильё': 'housing',
-  'Развлечения': 'joy',
-  'Образование': 'education',
-  'Другое': 'others'
+  Еда: 'food',
+  Транспорт: 'transport',
+  Жильё: 'housing',
+  Развлечения: 'joy',
+  Образование: 'education',
+  Другое: 'others',
 };
 
 const REVERSE_CATEGORY_MAPPING = {
-  'food': 'Еда',
-  'transport': 'Транспорт',
-  'housing': 'Жильё',
-  'joy': 'Развлечения',
-  'education': 'Образование',
-  'others': 'Другое'
+  food: 'Еда',
+  transport: 'Транспорт',
+  housing: 'Жильё',
+  joy: 'Развлечения',
+  education: 'Образование',
+  others: 'Другое',
 };
 
 function MainPage() {
@@ -30,20 +36,52 @@ function MainPage() {
   const [sortOrder, setSortOrder] = useState('Дата');
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 769)
-  const [showNewTransaction, setShowNewTransaction] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+  const [showNewTransaction, setShowNewTransaction] = useState(false);
+  const [selectedRowId, setSelectedRowId] = useState(null);
+  const [showButtons, setShowButtons] = useState(false);
+  const location = useLocation();
 
-    
   useEffect(() => {
-      const handleResize = () => {
-          setIsMobile(window.innerWidth < 769)
-      }
-      window.addEventListener('resize', handleResize)
-      return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    if (location.state?.showNewTransaction) {
+      setShowNewTransaction(true);
 
+      window.history.replaceState({}, document.title);
+    } else {
+      setShowNewTransaction(false);
+    }
+  }, [location.state, location.pathname]);
+
+  const handleEditExpenseWrapper = (index) => {
+    handleEditExpense(index);
+
+    setShowNewTransaction(true);
+
+    setSelectedRowId(null);
+    setShowButtons(false);
+  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleRowClick = (expenseId) => {
+    if (isMobile) {
+      if (selectedRowId === expenseId) {
+        setSelectedRowId(null);
+        setShowButtons(false);
+      } else {
+        setSelectedRowId(expenseId);
+        setShowButtons(true);
+      }
+    }
+  };
 
   const handleSubmit = async (expenseData, index) => {
     try {
@@ -51,29 +89,29 @@ function MainPage() {
         description: expenseData.description,
         sum: parseFloat(expenseData.amount.replace(/\s/g, '')),
         category: CATEGORY_MAPPING[expenseData.category],
-        date: expenseData.date
+        date: expenseData.date,
       };
 
       if (index !== undefined) {
-        // Режим редактирования
         await updateTransaction(expenses[index]._id, transactionData);
       } else {
-        // Новый расход
         await createTransaction(transactionData);
       }
-      
+
       await loadTransactions();
       setApiError(null);
-      
-      // Очищаем форму после успешной отправки
+
       setNewDescription('');
       setNewCategory('');
       setNewDate('');
       setNewAmount('');
       setEditMode(false);
+      setShowNewTransaction(false);
     } catch (error) {
-      console.error('Ошибка сохранения транзакции:', error);
-      if (error.message?.includes('description') && error.message?.includes('4 characters')) {
+      if (
+        error.message?.includes('description') &&
+        error.message?.includes('4 characters')
+      ) {
         setApiError('Описание должно быть более 4 символов');
       } else {
         setApiError('Произошла ошибка при добавлении расхода');
@@ -103,10 +141,18 @@ function MainPage() {
     handleAmountChange,
     handleEditExpense,
     handleAddExpense,
+    // eslint-disable-next-line no-unused-vars
     resetForm,
   } = useExpenseForm(expenses, setExpenses, handleSubmit);
 
-  const categories = ['Еда', 'Транспорт', 'Жильё', 'Развлечения', 'Образование', 'Другое'];
+  const categories = [
+    'Еда',
+    'Транспорт',
+    'Жильё',
+    'Развлечения',
+    'Образование',
+    'Другое',
+  ];
   const sortOptions = ['Дата', 'Сумма'];
 
   const loadTransactions = async () => {
@@ -114,15 +160,18 @@ function MainPage() {
       setIsLoading(true);
       const params = {
         sortBy: sortOrder === 'Дата' ? 'date' : 'sum',
-        filterBy: selectedCategory ? CATEGORY_MAPPING[selectedCategory] : undefined
+        filterBy: selectedCategory
+          ? CATEGORY_MAPPING[selectedCategory]
+          : undefined,
       };
       const data = await getTransactions(params);
-      const formattedData = data.map(transaction => ({
+      const formattedData = data.map((transaction) => ({
         ...transaction,
         category: REVERSE_CATEGORY_MAPPING[transaction.category],
-        date: new Date(transaction.date)
-          .toLocaleDateString('ru-RU', { timeZone: 'UTC' }),
-        amount: `${transaction.sum} ₽`
+        date: new Date(transaction.date).toLocaleDateString('ru-RU', {
+          timeZone: 'UTC',
+        }),
+        amount: `${transaction.sum} ₽`,
       }));
       setExpenses(formattedData);
     } catch (error) {
@@ -134,12 +183,15 @@ function MainPage() {
 
   useEffect(() => {
     loadTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, sortOrder]);
 
   const handleDelete = async (id) => {
     try {
       await deleteTransaction(id);
       await loadTransactions();
+      setSelectedRowId(null);
+      setShowButtons(false);
     } catch (error) {
       console.error('Ошибка удаления транзакции:', error);
     }
@@ -149,50 +201,62 @@ function MainPage() {
     Еда: <FoodIcon />,
     Транспорт: <S.CategoryIcon src="/car (1).svg" alt="Transport icon" />,
     Жильё: <S.CategoryIcon src="/HouseIcon.svg" alt="Housing icon" />,
-    Развлечения: <S.CategoryIcon src="/PlayIcon.svg" alt="Entertainment icon" />,
+    Развлечения: (
+      <S.CategoryIcon src="/PlayIcon.svg" alt="Entertainment icon" />
+    ),
     Образование: <S.CategoryIcon src="/StudyIcon.svg" alt="Education icon" />,
     Другое: <S.CategoryIcon src="/OtherIcon.svg" alt="Other icon" />,
   };
-  
+
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
     setIsSortDropdownOpen(false);
-  }
+  };
 
   const toggleSortDropdown = () => {
     setIsSortDropdownOpen(!isSortDropdownOpen);
     setIsCategoryDropdownOpen(false);
-  }
+  };
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setIsCategoryDropdownOpen(false);
-  }
+  };
 
   const handleSortSelect = (order) => {
     setSortOrder(order);
     setIsSortDropdownOpen(false);
-  }
+  };
 
   const filterExpenses = (expenses, selectedCategory) => {
     return selectedCategory
-      ? (expenses || []).filter((expense) => expense?.category === selectedCategory)
+      ? (expenses || []).filter(
+          (expense) => expense?.category === selectedCategory
+        )
       : expenses || [];
-  }
+  };
 
   const sortExpenses = (expenses, sortOrder) => {
     return [...(expenses || [])].sort((a, b) => {
       if (sortOrder === 'Дата') {
-        const dateA = a?.date ? new Date(a.date.split('.').reverse().join('-')) : new Date();
-        const dateB = b?.date ? new Date(b.date.split('.').reverse().join('-')) : new Date();
+        const dateA = a?.date
+          ? new Date(a.date.split('.').reverse().join('-'))
+          : new Date();
+        const dateB = b?.date
+          ? new Date(b.date.split('.').reverse().join('-'))
+          : new Date();
         return dateB - dateA;
       } else {
-        const amountA = a?.amount ? parseFloat(a.amount.replace(' ₽', '').replace(' ', '')) : 0;
-        const amountB = b?.amount ? parseFloat(b.amount.replace(' ₽', '').replace(' ', '')) : 0;
+        const amountA = a?.amount
+          ? parseFloat(a.amount.replace(' ₽', '').replace(' ', ''))
+          : 0;
+        const amountB = b?.amount
+          ? parseFloat(b.amount.replace(' ₽', '').replace(' ', ''))
+          : 0;
         return amountB - amountA;
       }
     });
-  }
+  };
 
   const filteredExpenses = filterExpenses(expenses, selectedCategory);
   const sortedExpenses = sortExpenses(filteredExpenses, sortOrder);
@@ -212,7 +276,6 @@ function MainPage() {
       descriptionError={descriptionError}
       dateError={dateError}
       amountError={amountError}
-      handleEditExpense={handleEditExpense}
       handleAddExpense={handleAddExpense}
       handleDescriptionChange={handleDescriptionChange}
       handleDateChange={handleDateChange}
@@ -236,6 +299,11 @@ function MainPage() {
       isMobile={isMobile}
       showNewTransaction={showNewTransaction}
       setShowNewTransaction={setShowNewTransaction}
+      onRowClick={handleRowClick}
+      selectedRowId={selectedRowId}
+      showButtons={showButtons}
+      expenses={expenses}
+      handleEditExpense={handleEditExpenseWrapper}
     />
   );
 }
