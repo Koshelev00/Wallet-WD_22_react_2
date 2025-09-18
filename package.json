@@ -7,7 +7,9 @@
         "dev": "vite --open",
         "build": "vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md,json}\"",
+        "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,md,json}\""
     },
     "dependencies": {
         "@emotion/styled": "^11.14.0",
@@ -41,6 +43,7 @@
         "eslint-plugin-react-hooks": "^5.0.0",
         "eslint-plugin-react-refresh": "^0.4.18",
         "globals": "^15.14.0",
+        "prettier": "^3.6.2",
         "vite": "^6.3.5",
         "vite-plugin-svgr": "^4.3.0"
     }
