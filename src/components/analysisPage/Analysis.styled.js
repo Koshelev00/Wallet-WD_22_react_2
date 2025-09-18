@@ -11,8 +11,11 @@ export const MainBlock = styled.div`
   align-content: flex-start;
   max-width: 1200px;
   margin: 0 auto;
-  @media (min-width: 767px) {
+  @media (max-width: 767px) {
     padding: 16px;
+     background: #ffffff;
+     display:flex;
+     align-content: center
   }
 `;
 
@@ -46,7 +49,7 @@ export const NewExpenseContainer = styled.div`
   padding-left: 32px;
   padding-bottom: 32px;
   padding-right: 16px;
-  background-color: #fff;
+  background-color: #ffffff;
 
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -72,17 +75,19 @@ export const NewExpenseContainer = styled.div`
 
   scrollbar-width: thin;
   scrollbar-color: #d9d9d9 transparent;
-  @media (max-width: 600px) {
+  @media (max-width: 767px) {
     width: 375px;
     padding-right: 16px;
     padding-left: 16px;
+    box-shadow:none;
   }
-  @media (min-width: 767px) {
+  @media (min-width: 7678x) {
     .hidden {
       display: block;
     }
     margin-right: 32px;
     border-radius: 30px;
+    
   }
 `;
 
@@ -262,12 +267,13 @@ export const ExpensesTableContainer = styled.div`
     border-radius: 0px;
     padding-left: 16px;
     padding-right: 16px;
+    box-shadow: none;
   }
 
-  @media ((min-width: 768px) and (max-width: 1024px)) {
+  @media ((max-width: 767px){
     width: 375px;
   }
-  @media (min-width: 1024px) {
+  @media (min-width:768px) {
     .hidden {
       display: block;
     }
