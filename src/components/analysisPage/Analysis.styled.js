@@ -162,6 +162,13 @@ export const CalendarContainer = styled.div`
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
+   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 export const CalendarHeader = styled.div`
