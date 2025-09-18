@@ -65,7 +65,7 @@ const ExpenseForm = ({
           <S.BackTransaction
             onClick={() => setShowNewTransaction(!showNewTransaction)}
           >
-            <S.BackImage src="../../../public/back.svg" alt="back" />
+            <S.BackImage src="../../../public/Back.svg" alt="back" />
 
             <S.BackTitle>Мои расходы</S.BackTitle>
           </S.BackTransaction>

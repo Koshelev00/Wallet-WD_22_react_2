@@ -210,7 +210,7 @@ function Analysispage() {
           <S.NewExpenseContainer>
             {isMobile && (
               <S.BackDiagramm onClick={() => setShowCalendar(!showCalendar)}>
-                <S.BackImage src="../../../public/back.svg" alt="back" />
+                <S.BackImage src="../../../public/Back.svg" alt="back" />
 
                 <S.BackTitle>Анализ расходов</S.BackTitle>
               </S.BackDiagramm>
