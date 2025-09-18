@@ -27,6 +27,9 @@ export const ContentContainer = styled.div`
   gap: 36px;
   @media (max-width: 767px) {
     margin-top: 0px;
+    display:flex;
+    justify-content: center
+
   }
 `;
 
