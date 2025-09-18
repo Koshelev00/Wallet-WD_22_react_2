@@ -39,6 +39,7 @@ export const MainPageContainer = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
+  gap:32px;
 `;
 
 export const NewExpenseContainer = styled.div`
@@ -50,7 +51,7 @@ export const NewExpenseContainer = styled.div`
   padding-bottom: 32px;
   padding-right: 16px;
   background-color: #ffffff;
-
+  border-radius:30px;
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -80,6 +81,7 @@ export const NewExpenseContainer = styled.div`
     padding-right: 16px;
     padding-left: 16px;
     box-shadow:none;
+    border-radius:0px;
   }
   @media (min-width: 7678x) {
     .hidden {

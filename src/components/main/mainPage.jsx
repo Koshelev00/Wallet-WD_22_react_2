@@ -57,8 +57,9 @@ function MainPage() {
 
   const handleEditExpenseWrapper = (index) => {
     handleEditExpense(index);
-
+    if(isMobile){
     setShowNewTransaction(true);
+    }
 
     setSelectedRowId(null);
     setShowButtons(false);
